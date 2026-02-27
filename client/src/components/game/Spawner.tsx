@@ -70,9 +70,8 @@ export function Spawner() {
       if (z > DESPAWN_Z) {
         obs.active = false;
         obs.mesh.current.visible = false;
-        useGameStore.getState().addScore(1); // Give point for dodging
         // Periodically increase speed
-        if (state.score > 0 && state.score % 20 === 0) {
+        if (state.score > 0 && state.score % 500 === 0) {
           useGameStore.getState().increaseSpeed(1);
         }
       }
@@ -94,7 +93,7 @@ export function Spawner() {
           // Collect coin
           coin.active = false;
           coin.mesh.current.visible = false;
-          useGameStore.getState().addScore(5);
+          useGameStore.getState().addCoin();
         }
       }
 
