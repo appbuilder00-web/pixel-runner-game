@@ -71,7 +71,8 @@ export function MainMenu() {
                value={tempName}
                onChange={(e) => setTempName(e.target.value)}
                placeholder="Enter your name"
-               className="w-full bg-white/10 border border-white/20 rounded-xl p-4 text-white mb-4 outline-none focus:border-primary"
+               onKeyDown={(e) => e.stopPropagation()}
+               className="w-full bg-white/10 border border-white/20 rounded-xl p-4 text-white mb-4 outline-none focus:border-primary pointer-events-auto"
              />
              <button 
                onClick={() => tempName && setPlayerName(tempName)}

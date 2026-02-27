@@ -7,8 +7,8 @@ import confetti from 'canvas-confetti';
 import { useLocation } from 'wouter';
 
 export function GameOver() {
-  const { status, score, resetGame, setStatus } = useGameStore();
-  const [name, setName] = useState('');
+  const { status, score, resetGame, setStatus, playerName } = useGameStore();
+  const [name, setName] = useState(playerName || '');
   const [errorMsg, setErrorMsg] = useState('');
   const createScore = useCreateScore();
   const [, setLocation] = useLocation();
@@ -32,7 +32,8 @@ export function GameOver() {
     }
     
     setStatus('submitting');
-    createScore.mutate({ playerName: name.trim(), score }, {
+    const finalName = name.trim() || playerName;
+    createScore.mutate({ playerName: finalName, score }, {
       onSuccess: () => {
         setLocation('/leaderboard');
         // Reset state so when they come back it's fresh
@@ -73,7 +74,8 @@ export function GameOver() {
                   placeholder="Enter your name" 
                   maxLength={15}
                   disabled={status === 'submitting'}
-                  className="w-full bg-black/40 border-2 border-primary/50 rounded-xl px-4 py-4 text-white text-center font-bold text-xl placeholder:text-white/30 focus:outline-none focus:border-primary focus:box-glow-primary transition-all disabled:opacity-50"
+                  onKeyDown={(e) => e.stopPropagation()}
+                  className="w-full bg-black/40 border-2 border-primary/50 rounded-xl px-4 py-4 text-white text-center font-bold text-xl placeholder:text-white/30 focus:outline-none focus:border-primary focus:box-glow-primary transition-all disabled:opacity-50 pointer-events-auto"
                 />
                 {errorMsg && <p className="text-destructive text-sm mt-2 text-center">{errorMsg}</p>}
               </div>
